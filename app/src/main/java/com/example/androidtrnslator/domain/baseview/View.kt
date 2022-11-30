@@ -1,6 +1,7 @@
 package geekbrains.ru.translator.view.base
 
-import geekbrains.ru.translator.model.data.AppState
+import com.example.androidtrnslator.domain.appstate.AppState
+
 
 interface View {
 

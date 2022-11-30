@@ -1,6 +1,7 @@
 package com.example.androidtrnslator.model.presenter
 
-import geekbrains.ru.translator.model.data.AppState
+
+import com.example.androidtrnslator.domain.appstate.AppState
 import geekbrains.ru.translator.view.base.View
 
 interface Presenter<T : AppState, V : View> {
