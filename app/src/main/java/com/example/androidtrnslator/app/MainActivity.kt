@@ -1,7 +1,8 @@
-package com.example.androidtrnslator
+package com.example.androidtrnslator.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.androidtrnslator.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
