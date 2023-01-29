@@ -10,17 +10,14 @@ import com.example.androidtrnslator.R
 import com.example.androidtrnslator.databinding.ActivityMainBinding
 import com.example.androidtrnslator.domain.appstate.AppState
 import com.example.androidtrnslator.domain.dtomodel.DataModel
-import com.example.androidtrnslator.model.presenter.Presenter
 import com.example.androidtrnslator.ui.search.SearchDialogFragment
-import geekbrains.ru.translator.view.base.BaseActivity
-import geekbrains.ru.translator.view.base.View
 import geekbrains.ru.translator.view.main.adapter.MainAdapter
 
 class MainActivity : BaseActivity<AppState>() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+    private var adapter: MainAdapter? = null
 
-    //    private var adapter: MainAdapter? = null
     private val viewModel: MainActivityViewModel by lazy {
         ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
@@ -37,6 +34,10 @@ class MainActivity : BaseActivity<AppState>() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel.getObserver().observe(this){
+            renderData(it)
+        }
+
         setSearchButtonClickListener()
     }
 
@@ -49,7 +50,6 @@ class MainActivity : BaseActivity<AppState>() {
             searchDialogFragment.show(supportFragmentManager, null)
         }
     }
-
 
 
     override fun renderData(appState: AppState) {
@@ -91,7 +91,7 @@ class MainActivity : BaseActivity<AppState>() {
         showViewError()
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            presenter.getData("hi", true)
+            viewModel.getData("hi", true)
         }
     }
 

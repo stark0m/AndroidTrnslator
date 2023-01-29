@@ -19,17 +19,22 @@ class MainActivityViewModel(
     protected val schedulerProvider: SchedulerProvider = SchedulerProvider()
 ) : ViewModel(), MainActivityVievModelContract {
     private var vmLiveData: MutableLiveData<AppState> = MutableLiveData()
+
     override fun getData(word: String, isOnline: Boolean) {
         compositeDisposable.add(
             interactor.getData(word, isOnline)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .doOnSubscribe { vmLiveData.postValue(AppState.Loading(null)) }
-                .subscribeWith(getObserver())
+                .subscribeWith(getLocalObserver())
         )
     }
 
-    private fun getObserver(): DisposableObserver<AppState> {
+    fun getObserver(): MutableLiveData<AppState> {
+        return vmLiveData
+    }
+
+    private fun getLocalObserver(): DisposableObserver<AppState> {
         return object : DisposableObserver<AppState>() {
 
             override fun onNext(appState: AppState) {
