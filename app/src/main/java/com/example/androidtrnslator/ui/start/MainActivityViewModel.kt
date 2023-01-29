@@ -1,22 +1,24 @@
 package com.example.androidtrnslator.ui.start
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.androidtrnslator.domain.appstate.AppState
 import com.example.androidtrnslator.model.datasource.DataSourceRemote
 import com.example.androidtrnslator.model.interactor.MainInteractor
 import com.example.androidtrnslator.model.vievmodels.MainActivityVievModelContract
+import com.example.androidtrnslator.ui.App
 import geekbrains.ru.translator.model.repository.RepositoryImplementation
 import geekbrains.ru.translator.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 
+
 class MainActivityViewModel(
-    private val interactor: MainInteractor = MainInteractor(
-        RepositoryImplementation(DataSourceRemote())
-    ),
-    protected val compositeDisposable: CompositeDisposable = CompositeDisposable(),
-    protected val schedulerProvider: SchedulerProvider = SchedulerProvider()
+    private val interactor: MainInteractor = App.instance.interactor,
+    private val compositeDisposable: CompositeDisposable = App.instance.compositeDisposable,
+    private val schedulerProvider: SchedulerProvider = App.instance.schedulerProvider,
 ) : ViewModel(), MainActivityVievModelContract {
     private var vmLiveData: MutableLiveData<AppState> = MutableLiveData()
 

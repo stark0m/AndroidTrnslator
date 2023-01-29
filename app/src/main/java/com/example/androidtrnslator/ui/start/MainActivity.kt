@@ -1,7 +1,7 @@
 package com.example.androidtrnslator.ui.start
 
 import BaseActivity
-import androidx.appcompat.app.AppCompatActivity
+import MainAdapter
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -11,15 +11,16 @@ import com.example.androidtrnslator.databinding.ActivityMainBinding
 import com.example.androidtrnslator.domain.appstate.AppState
 import com.example.androidtrnslator.domain.dtomodel.DataModel
 import com.example.androidtrnslator.ui.search.SearchDialogFragment
-import geekbrains.ru.translator.view.main.adapter.MainAdapter
 
 class MainActivity : BaseActivity<AppState>() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private var adapter: MainAdapter? = null
 
+
     private val viewModel: MainActivityViewModel by lazy {
-        ViewModelProvider(this).get(MainActivityViewModel::class.java)
+      ViewModelProvider(this).get(MainActivityViewModel::class.java);
+
     }
 
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
