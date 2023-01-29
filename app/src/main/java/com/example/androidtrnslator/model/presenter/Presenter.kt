@@ -10,5 +10,5 @@ interface Presenter<T : AppState, V : View> {
 
     fun detachView(view: V)
 
-    fun getData(word: String, isOnline: Boolean)
+
 }
