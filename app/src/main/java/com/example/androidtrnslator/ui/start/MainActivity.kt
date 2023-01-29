@@ -1,8 +1,10 @@
 package com.example.androidtrnslator.ui.start
 
+import BaseActivity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidtrnslator.R
 import com.example.androidtrnslator.databinding.ActivityMainBinding
@@ -15,15 +17,21 @@ import geekbrains.ru.translator.view.base.View
 import geekbrains.ru.translator.view.main.adapter.MainAdapter
 
 class MainActivity : BaseActivity<AppState>() {
-    private var _binding:ActivityMainBinding? = null
+    private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    private var adapter: MainAdapter? = null
+
+    //    private var adapter: MainAdapter? = null
+    private val viewModel: MainActivityViewModel by lazy {
+        ViewModelProvider(this).get(MainActivityViewModel::class.java)
+    }
+
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataModel) {
                 Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
             }
         }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,15 +44,13 @@ class MainActivity : BaseActivity<AppState>() {
         binding.searchFab.setOnClickListener {
             val searchDialogFragment = SearchDialogFragment.newInstance()
             searchDialogFragment.setOnSearchClickListener { searchingWord ->
-                presenter.getData(searchingWord, true)
+                viewModel.getData(searchingWord, true)
             }
-            searchDialogFragment.show(supportFragmentManager,null)
+            searchDialogFragment.show(supportFragmentManager, null)
         }
     }
 
-    override fun createPresenter(): Presenter<AppState, View> {
-        return MainPresenterImpl()
-    }
+
 
     override fun renderData(appState: AppState) {
         when (appState) {
@@ -106,6 +112,7 @@ class MainActivity : BaseActivity<AppState>() {
         binding.loadingFrameLayout.visibility = android.view.View.GONE
         binding.errorLinearLayout.visibility = android.view.View.VISIBLE
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
